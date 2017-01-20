@@ -1,5 +1,7 @@
-package tr.com.innova.campaign.criteria.drools.engine;
+package tr.com.innova.payflex.campaignCriteria.drools.engine;
 
+import org.kie.api.KieServices;
+import org.kie.api.runtime.KieContainer;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -10,7 +12,7 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import tr.com.innova.campaign.criteria.drools.engine.amqp.Receiver;
+import tr.com.innova.payflex.campaignCriteria.drools.engine.amqp.Receiver;
 
 @SpringBootApplication
 public class CampaignCriteriaDroolsEngineApplication {
@@ -36,6 +38,12 @@ public class CampaignCriteriaDroolsEngineApplication {
 	MessageListenerAdapter listenerAdapter(Receiver receiver){
 		return new MessageListenerAdapter(receiver, "receiveMessage");
 	}
+
+	@Bean
+	KieContainer kieContainer() {
+		return KieServices.Factory.get().getKieClasspathContainer();
+	}
+
 
 	@Bean
 	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {

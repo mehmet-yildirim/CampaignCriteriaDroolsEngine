@@ -1,4 +1,4 @@
-package tr.com.innova.campaign.criteria.drools.engine.amqp;
+package tr.com.innova.payflex.campaignCriteria.drools.engine.amqp;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

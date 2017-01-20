@@ -1,4 +1,4 @@
-package tr.com.innova.campaign.criteria.drools.engine;
+package tr.com.innova.payflex.campaignCriteria.drools.engine;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

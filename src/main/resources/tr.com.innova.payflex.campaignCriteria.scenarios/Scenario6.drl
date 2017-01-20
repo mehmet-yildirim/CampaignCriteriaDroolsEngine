@@ -1,0 +1,118 @@
+package com.payflex.campaignCriteria.drlGenerator;
+
+import java.util.List;
+import java.util.HashMap;
+
+import tr.com.innova.payflex.campaignCriteria.drlGenerator.helpers.*;
+import tr.com.innova.payflex.campaignCriteria.drlGenerator.entity.*;
+
+//CampaignName : Scenario6
+
+rule "Campaign(6)-Rule1-Sec1(Init)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.NewEventReceived)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.DroolsCampaignEventValidated);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec2(EndUser)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.DroolsCampaignEventValidated)
+		eval
+		(
+			 $event.getEndUserField("Gender") == "F" && 
+			 $event.getEndUserField("Age") != null && (int)$event.getEndUserField("Age") >= 22 && 
+			 $event.getEndUserField("Age") != null && (int)$event.getEndUserField("Age") <= 25
+		)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.EndUserCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec3(CurrentEvent)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.EndUserCriteriasAreSatisfied)
+		eval
+		(
+			 DroolsDateHelper.firstIsAfterSecond($event.getCurrentEventField("Date"),"2016-06-01 00:00:00") && 
+			 DroolsDateHelper.firstIsBeforeSecond($event.getCurrentEventField("Date"),"2017-06-01 00:00:00") && 
+			 $event.getCurrentEventField("Amount") != null && (double)$event.getCurrentEventField("Amount") >= 80
+		)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.CurrentEventCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec4(PastEvents)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.CurrentEventCriteriasAreSatisfied)
+
+		$pastEvents0 : List(size>= 2 && size<=999999)
+				from collect(HashMap(
+					get("Type") == "Purchase",
+					get("Amount") >= 15,
+					DroolsDateHelper.firstIsInTheLastPeriod(get("Date"),"2-M", $event.getValue("Timestamp"))
+				)
+				from $event.getPastEvents)
+
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.PastEventsCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec5(PastBenefits)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.PastEventsCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.PastBenefitsCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec6(BenefitLimit)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.PastBenefitsCriteriasAreSatisfied)
+
+		$benetifLimit : List()
+				from collect(HashMap(
+					get("CampaignId")=="6"
+				)
+				from $event.getPastBenefits())
+		eval(FrequencyHelper.checkFrequencyForBenefitLimit($event.getValue("Timestamp"), "MC", $benetifLimit, 1))
+
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.BenefitLimitCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec7(Recurrence)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.BenefitLimitCriteriasAreSatisfied)
+
+		$recurrencePastEvents0 : List(size != null && size>=1)
+				from collect(HashMap(
+					DroolsDateHelper.firstIsAfterSecond(get("Date"),"2016-06-01 00:00:00"),
+					DroolsDateHelper.firstIsBeforeSecond(get("Date"),"2017-06-01 00:00:00"),
+					get("Amount") >= 80
+				)
+				from $event.getPastEvents)
+		$recurrencePastBenefits0 : List()
+				from collect(HashMap(
+					get("CampaignId")=="6"
+				)
+				from $event.getPastBenefits())
+		eval (($recurrencePastEvents0.size() + 1) - ($recurrencePastBenefits0.size() * 3) >= 3)
+
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.RecurrenceCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(6)-Rule1-Sec8(Final)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.RecurrenceCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.AllRuleCriteriasAreSatisfied);
+		update($event);
+		$event.addDroolsCampaignMatch("6","1","1");
+end

@@ -1,0 +1,80 @@
+package com.payflex.campaignCriteria.drlGenerator;
+
+import java.util.List;
+import java.util.HashMap;
+
+import tr.com.innova.payflex.campaignCriteria.drlGenerator.helpers.*;
+import tr.com.innova.payflex.campaignCriteria.drlGenerator.entity.*;
+
+//CampaignName : Scenario1
+
+rule "Campaign(1)-Rule1-Sec1(Init)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.NewEventReceived)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.DroolsCampaignEventValidated);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec2(EndUser)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.DroolsCampaignEventValidated)
+		eval
+		(
+			 $event.getEndUserField("Segment") == "VIP" && 
+			 $event.getEndUserField("Gender") == "F" && 
+			 DroolsDateHelper.IsDayOfYear($event.getEndUserField("Birthdate"), $event.getValue("Timestamp"))
+		)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.EndUserCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec3(CurrentEvent)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.EndUserCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.CurrentEventCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec4(PastEvents)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.CurrentEventCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.PastEventsCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec5(PastBenefits)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.PastEventsCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.PastBenefitsCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec6(BenefitLimit)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.PastBenefitsCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.BenefitLimitCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec7(Recurrence)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.BenefitLimitCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.RecurrenceCriteriasAreSatisfied);
+		update($event);
+end
+
+rule "Campaign(1)-Rule1-Sec8(Final)"
+	when
+		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.RecurrenceCriteriasAreSatisfied)
+	then
+		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.AllRuleCriteriasAreSatisfied);
+		update($event);
+		$event.addDroolsCampaignMatch("1","1","1");
+end
