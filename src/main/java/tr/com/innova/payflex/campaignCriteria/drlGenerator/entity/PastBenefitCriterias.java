@@ -1,42 +1,38 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
-public class PastBenefitCriterias
-{
-	private int MaxCount;
-	
-	public int getMaxCount() {
-		return MaxCount;
-	}
+public class PastBenefitCriterias {
+    private int MaxCount;
 
-	public void setMaxCount(int maxCount) {
-		MaxCount = maxCount;
-	}
+    public int getMaxCount() {
+        return MaxCount;
+    }
 
-	private int MinCount;
-	
+    public void setMaxCount(int maxCount) {
+        MaxCount = maxCount;
+    }
+
+    private int MinCount;
+
     public int getMinCount() {
-		return MinCount;
-	}
+        return MinCount;
+    }
 
-	public void setMinCount(int count) {
-		MinCount = count;
-	}
+    public void setMinCount(int count) {
+        MinCount = count;
+    }
 
-	private Fields[] Fields;
+    private Fields[] Fields;
 
-    public Fields[] getFields ()
-    {
+    public Fields[] getFields() {
         return Fields;
     }
 
-    public void setFields (Fields[] Fields)
-    {
+    public void setFields(Fields[] Fields) {
         this.Fields = Fields;
     }
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [Fields = "+Fields+"]";
+    public String toString() {
+        return "ClassPojo [Fields = " + Fields + "]";
     }
 }

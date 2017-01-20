@@ -1,86 +1,78 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
-public class Rule
-{
+public class Rule {
     private EndUserCriterias EndUserCriterias;
 
     private String RuleNo;
-    
+
     private String Priority;
 
     public String getPriority() {
-		return Priority;
-	}
+        return Priority;
+    }
 
-	public void setPriority(String priority) {
-		Priority = priority;
-	}
+    public void setPriority(String priority) {
+        Priority = priority;
+    }
 
-	private CurrentEventCriterias CurrentEventCriterias;
+    private CurrentEventCriterias CurrentEventCriterias;
 
-    public EndUserCriterias getEndUserCriterias ()
-    {
+    public EndUserCriterias getEndUserCriterias() {
         return EndUserCriterias;
     }
 
-    public void setEndUserCriterias (EndUserCriterias EndUserCriterias)
-    {
+    public void setEndUserCriterias(EndUserCriterias EndUserCriterias) {
         this.EndUserCriterias = EndUserCriterias;
     }
 
-    public String getRuleNo ()
-    {
+    public String getRuleNo() {
         return RuleNo;
     }
 
-    public void setRuleNo (String RuleNo)
-    {
+    public void setRuleNo(String RuleNo) {
         this.RuleNo = RuleNo;
     }
 
-    public CurrentEventCriterias getCurrentEventCriterias ()
-    {
+    public CurrentEventCriterias getCurrentEventCriterias() {
         return CurrentEventCriterias;
     }
 
-    public void setCurrentEventCriterias (CurrentEventCriterias CurrentEventCriterias)
-    {
+    public void setCurrentEventCriterias(CurrentEventCriterias CurrentEventCriterias) {
         this.CurrentEventCriterias = CurrentEventCriterias;
     }
-    
+
     private PastEventCriterias[] PastEventCriterias;
 
     public PastEventCriterias[] getPastEventCriterias() {
-		return PastEventCriterias;
-	}
+        return PastEventCriterias;
+    }
 
-	public void setPastEventCriterias(PastEventCriterias[] pastEvents) {
-		PastEventCriterias = pastEvents;
-	}
-	
-	private PastBenefitCriterias[] PastBenefitCriterias;
+    public void setPastEventCriterias(PastEventCriterias[] pastEvents) {
+        PastEventCriterias = pastEvents;
+    }
+
+    private PastBenefitCriterias[] PastBenefitCriterias;
 
     public PastBenefitCriterias[] getPastBenefitCriterias() {
-		return PastBenefitCriterias;
-	}
+        return PastBenefitCriterias;
+    }
 
-	public void setPastBenefitCriterias(PastBenefitCriterias[] pastBenefits) {
-		PastBenefitCriterias = pastBenefits;
-	}
-	
-	private BenefitLimit BenefitLimit;
+    public void setPastBenefitCriterias(PastBenefitCriterias[] pastBenefits) {
+        PastBenefitCriterias = pastBenefits;
+    }
 
-	public BenefitLimit getBenefitLimit() {
-		return BenefitLimit;
-	}
+    private BenefitLimit BenefitLimit;
 
-	public void setBenefitLimit(BenefitLimit benefitLimit) {
-		BenefitLimit = benefitLimit;
-	}
+    public BenefitLimit getBenefitLimit() {
+        return BenefitLimit;
+    }
 
-	@Override
-    public String toString()
-    {
-        return "ClassPojo [EndUserCriterias = "+EndUserCriterias+", RuleNo = "+RuleNo+", CurrentEventCriterias = "+CurrentEventCriterias+"]";
+    public void setBenefitLimit(BenefitLimit benefitLimit) {
+        BenefitLimit = benefitLimit;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassPojo [EndUserCriterias = " + EndUserCriterias + ", RuleNo = " + RuleNo + ", CurrentEventCriterias = " + CurrentEventCriterias + "]";
     }
 }

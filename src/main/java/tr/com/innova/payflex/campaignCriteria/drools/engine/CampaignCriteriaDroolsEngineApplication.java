@@ -4,39 +4,80 @@ import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import tr.com.innova.payflex.campaignCriteria.drools.engine.amqp.Receiver;
+import tr.com.innova.payflex.campaignCriteria.drools.engine.amqp.AMQPReceiver;
 
 @SpringBootApplication
+@EnableRabbit
 public class CampaignCriteriaDroolsEngineApplication {
 
-	final static String queueName = "spring-boot";
+	public final static String requestQueueName = "payflex-campaignCriteria-Request";
+	public final static String replyQueueName = "payflex-campaignCriteria-Reply";
+
+	public final static String exchangeName = "payflex-campaignCriteria-Exchange";
+
+	@Autowired
+	private ConnectionFactory connectionFactory;
+
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
 
 	@Bean
-	Queue queue() {
-		return new Queue(queueName, false);
+	RabbitTemplate rabbitReplyTemplate() {
+		RabbitTemplate template = new RabbitTemplate(this.connectionFactory);
+		template.setExchange(exchange().getName());
+		template.setRoutingKey(requestQueueName);
+		template.setReplyAddress(replyQueueName);
+
+		return template;
 	}
 
 	@Bean
-	TopicExchange exchange() {
-		return new TopicExchange("spring-boot-exchange");
+	DirectExchange exchange() {
+		return new DirectExchange(exchangeName);
 	}
 
 	@Bean
-	Binding binding(Queue queue, TopicExchange topicExchange) {
-		return BindingBuilder.bind(queue).to(topicExchange).with(queueName);
+	Binding binding() {
+		return BindingBuilder.bind(requestQueue()).to(exchange()).with(requestQueueName);
 	}
 
 	@Bean
-	MessageListenerAdapter listenerAdapter(Receiver receiver){
-		return new MessageListenerAdapter(receiver, "receiveMessage");
+	Queue requestQueue() {
+		return new Queue(requestQueueName);
+	}
+
+	@Bean
+	Queue replyQueue() {
+		return new Queue(replyQueueName);
+	}
+
+	@Bean
+	SimpleMessageListenerContainer requestListenerContainer() {
+		SimpleMessageListenerContainer c = new SimpleMessageListenerContainer();
+		c.setConnectionFactory(this.connectionFactory);
+		c.setQueues(requestQueue());
+		c.setMessageListener(new MessageListenerAdapter(new AMQPReceiver()));
+		return c;
+	}
+
+	@Bean
+	SimpleMessageListenerContainer replyListenerContainer() {
+		SimpleMessageListenerContainer c = new SimpleMessageListenerContainer();
+		c.setConnectionFactory(this.connectionFactory);
+		c.setQueues(replyQueue());
+		c.setMessageListener(rabbitReplyTemplate());
+		return c;
 	}
 
 	@Bean
@@ -44,15 +85,6 @@ public class CampaignCriteriaDroolsEngineApplication {
 		return KieServices.Factory.get().getKieClasspathContainer();
 	}
 
-
-	@Bean
-	SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-		container.setConnectionFactory(connectionFactory);
-		container.setQueueNames(queueName);
-		container.setMessageListener(listenerAdapter);
-		return container;
-	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(CampaignCriteriaDroolsEngineApplication.class, args);

@@ -4,14 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by meyildirim on 17-Jan-17.
+ * Created by meyildirim on 20-Jan-17.
  */
 @Component
 @Slf4j
-public class Receiver {
+public class AMQPReceiver {
 
-    public void receiveMessage(String message) {
+    public String handleMessage(String message) {
         log.info("Received message: {}", message);
-
+        return "test_result";
     }
 }
