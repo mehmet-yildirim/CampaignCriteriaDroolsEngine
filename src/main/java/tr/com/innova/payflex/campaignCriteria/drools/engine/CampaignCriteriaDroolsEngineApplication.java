@@ -35,17 +35,17 @@ public class CampaignCriteriaDroolsEngineApplication {
 	@Autowired
 	private CampaignCriteriaScenario1Service campaignCriteriaScenario1Service;
 
-	@Bean
-	RabbitTemplate rabbitTemplate() {
-		RabbitTemplate template = new RabbitTemplate(this.connectionFactory);
-		template.setExchange(exchange().getName());
-		template.setCorrelationKey(UUID.randomUUID().toString());
-		template.setEncoding("UTF-8");
-		template.setRoutingKey(requestQueueName);
-		template.setReplyAddress(replyQueueName);
-
-		return template;
-	}
+//	@Bean
+//	RabbitTemplate rabbitTemplate() {
+//		RabbitTemplate template = new RabbitTemplate(this.connectionFactory);
+//		template.setExchange(exchange().getName());
+//		template.setCorrelationKey(UUID.randomUUID().toString());
+//		template.setEncoding("UTF-8");
+//		template.setRoutingKey(requestQueueName);
+//		template.setReplyAddress(replyQueueName);
+//
+//		return template;
+//	}
 
 	@Bean
 	DirectExchange exchange() {
