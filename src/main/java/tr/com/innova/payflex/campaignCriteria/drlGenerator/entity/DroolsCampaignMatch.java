@@ -39,4 +39,13 @@ public class DroolsCampaignMatch {
         _ruleNo = Integer.parseInt(ruleNo);
         _priority = Integer.parseInt(priority);
     }
+
+    @Override
+    public String toString() {
+        return "DroolsCampaignMatch{" +
+                "_campaignId=" + _campaignId +
+                ", _ruleNo=" + _ruleNo +
+                ", _priority=" + _priority +
+                '}';
+    }
 }

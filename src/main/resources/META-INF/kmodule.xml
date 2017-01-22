@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
 
-    <kbase name="PayflexCampaignScenariosKBase" packages="tr.com.innova.payflex.campaignCriteria.scenarios">
-        <ksession name="PayflexCampaignScenariosKS"/>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario1" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario1">
+        <ksession name="PayflexCampaignCriteria-Scenario1-KS"/>
     </kbase>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario2" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario2">
+        <ksession name="PayflexCampaignCriteria-Scenario2-KS"/>
+    </kbase>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario3" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario3">
+        <ksession name="PayflexCampaignCriteria-Scenario3-KS"/>
+    </kbase>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario4" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario4">
+        <ksession name="PayflexCampaignCriteria-Scenario4-KS"/>
+    </kbase>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario5" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario5">
+        <ksession name="PayflexCampaignCriteria-Scenario5-KS"/>
+    </kbase>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario6" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario6">
+        <ksession name="PayflexCampaignCriteria-Scenario6-KS"/>
+    </kbase>
+    <kbase name="PayflexCampaignCriteriaKBase-Scenario7" packages="tr.com.innova.payflex.campaignCriteria.scenarios.scenario7">
+        <ksession name="PayflexCampaignCriteria-Scenario7-KS"/>
+    </kbase>
+
 </kmodule>
