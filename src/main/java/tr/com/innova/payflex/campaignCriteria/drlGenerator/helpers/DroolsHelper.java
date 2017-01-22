@@ -30,6 +30,10 @@ public class DroolsHelper {
         return false;
     }
 
+    public static boolean isEquals(Object o1, Object o2) {
+        return o1.equals(o2);
+    }
+
     public static boolean isExcluded(Object strExcludedCampaign, String currentCampaign) {
         if (strExcludedCampaign == null)
             return false;

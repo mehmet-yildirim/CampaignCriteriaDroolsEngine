@@ -21,9 +21,11 @@ rule "Campaign(1)-Rule1-Sec2(EndUser)"
 		$event : DroolsCampaignEvent(getDroolsCampaignAuditByRuleNo(1) == DroolsCampaignAudit.DroolsCampaignEventValidated)
 		eval
 		(
-			 $event.getEndUserField("Segment") == "VIP" && 
-			 $event.getEndUserField("Gender") == "F" && 
-			 DroolsDateHelper.IsDayOfYear($event.getEndUserField("Birthdate"), $event.getValue("Timestamp"))
+			 //$event.getEndUserField("Segment") == "VIP" &&
+			 DroolsHelper.isEquals($event.getEndUserField("Segment"), "VIP") &&
+			 //$event.getEndUserField("Gender") == "F" &&
+			 DroolsHelper.isEquals($event.getEndUserField("Gender"), "F") &&
+             DroolsDateHelper.IsDayOfYear($event.getEndUserField("Birthdate"), $event.getValue("Timestamp"))
 		)
 	then
 		$event.updateDroolsCampaignAuditByRuleNo(1, DroolsCampaignAudit.EndUserCriteriasAreSatisfied);
