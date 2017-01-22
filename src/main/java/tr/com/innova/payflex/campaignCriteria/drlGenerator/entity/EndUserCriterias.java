@@ -1,5 +1,7 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
+import java.util.Arrays;
+
 public class EndUserCriterias {
     private Fields[] Fields;
 
@@ -13,6 +15,8 @@ public class EndUserCriterias {
 
     @Override
     public String toString() {
-        return "ClassPojo [Fields = " + Fields + "]";
+        return "EndUserCriterias{" +
+                "Fields=" + Arrays.toString(Fields) +
+                '}';
     }
 }

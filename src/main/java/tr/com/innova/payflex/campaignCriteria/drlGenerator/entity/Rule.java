@@ -1,5 +1,7 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
+import java.util.Arrays;
+
 public class Rule {
     private EndUserCriterias EndUserCriterias;
 
@@ -73,6 +75,14 @@ public class Rule {
 
     @Override
     public String toString() {
-        return "ClassPojo [EndUserCriterias = " + EndUserCriterias + ", RuleNo = " + RuleNo + ", CurrentEventCriterias = " + CurrentEventCriterias + "]";
+        return "Rule{" +
+                "EndUserCriterias=" + EndUserCriterias +
+                ", RuleNo='" + RuleNo + '\'' +
+                ", Priority='" + Priority + '\'' +
+                ", CurrentEventCriterias=" + CurrentEventCriterias +
+                ", PastEventCriterias=" + Arrays.toString(PastEventCriterias) +
+                ", PastBenefitCriterias=" + Arrays.toString(PastBenefitCriterias) +
+                ", BenefitLimit=" + BenefitLimit +
+                '}';
     }
 }

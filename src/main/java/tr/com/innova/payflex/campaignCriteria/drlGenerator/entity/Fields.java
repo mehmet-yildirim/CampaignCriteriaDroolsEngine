@@ -43,6 +43,11 @@ public class Fields {
 
     @Override
     public String toString() {
-        return "ClassPojo [Condition = " + Condition + ", FieldValue = " + FieldValue + ", FieldType = " + FieldType + ", FieldName = " + FieldName + "]";
+        return "Fields{" +
+                "Condition='" + Condition + '\'' +
+                ", FieldValue='" + FieldValue + '\'' +
+                ", FieldType='" + FieldType + '\'' +
+                ", FieldName='" + FieldName + '\'' +
+                '}';
     }
 }

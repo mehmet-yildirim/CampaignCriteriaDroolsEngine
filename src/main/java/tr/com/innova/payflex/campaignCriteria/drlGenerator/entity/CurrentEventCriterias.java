@@ -1,5 +1,7 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
+import java.util.Arrays;
+
 public class CurrentEventCriterias {
     private Integer Recurrence;
 
@@ -23,6 +25,9 @@ public class CurrentEventCriterias {
 
     @Override
     public String toString() {
-        return "ClassPojo [Fields = " + Fields + "]";
+        return "CurrentEventCriterias{" +
+                "Recurrence=" + Recurrence +
+                ", Fields=" + Arrays.toString(Fields) +
+                '}';
     }
 }

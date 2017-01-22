@@ -92,4 +92,17 @@ public class DroolsCampaignEvent {
     public void setValue(String key, Object value) {
         this._properties.put(key, value);
     }
+
+    @Override
+    public String toString() {
+        return "DroolsCampaignEvent{" +
+                "_properties=" + _properties +
+                ", _endUserFields=" + _endUserFields +
+                ", _currentEventFields=" + _currentEventFields +
+                ", _pastEvents=" + _pastEvents +
+                ", _pastBenefits=" + _pastBenefits +
+                ", _droolsCampaignMatches=" + _droolsCampaignMatches +
+                ", _droolsCampaignAudit=" + _droolsCampaignAudit +
+                '}';
+    }
 }

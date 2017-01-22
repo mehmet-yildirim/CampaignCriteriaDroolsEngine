@@ -19,4 +19,12 @@ public class BenefitLimit {
 
     private int LimitValue;
     private String LimitPeriod;
+
+    @Override
+    public String toString() {
+        return "BenefitLimit{" +
+                "LimitValue=" + LimitValue +
+                ", LimitPeriod='" + LimitPeriod + '\'' +
+                '}';
+    }
 }

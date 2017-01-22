@@ -16,4 +16,6 @@ public enum DroolsCampaignAudit {
                 ? DroolsCampaignAudit.values()[this.ordinal() + 1]
                 : null;
     }
+
+    
 }

@@ -1,5 +1,7 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
+import java.util.Arrays;
+
 public class Campaign {
     private String CampaignId;
 
@@ -33,6 +35,10 @@ public class Campaign {
 
     @Override
     public String toString() {
-        return "ClassPojo [CampaignId = " + CampaignId + ", CampaignName = " + CampaignName + ", Rule = " + Rule + "]";
+        return "Campaign{" +
+                "CampaignId='" + CampaignId + '\'' +
+                ", CampaignName='" + CampaignName + '\'' +
+                ", Rule=" + Arrays.toString(Rule) +
+                '}';
     }
 }

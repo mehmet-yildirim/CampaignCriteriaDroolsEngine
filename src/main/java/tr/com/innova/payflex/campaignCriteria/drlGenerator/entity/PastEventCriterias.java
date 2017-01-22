@@ -1,5 +1,7 @@
 package tr.com.innova.payflex.campaignCriteria.drlGenerator.entity;
 
+import java.util.Arrays;
+
 public class PastEventCriterias {
     private int MaxCount;
 
@@ -33,6 +35,10 @@ public class PastEventCriterias {
 
     @Override
     public String toString() {
-        return "ClassPojo [Fields = " + Fields + "]";
+        return "PastEventCriterias{" +
+                "MaxCount=" + MaxCount +
+                ", MinCount=" + MinCount +
+                ", Fields=" + Arrays.toString(Fields) +
+                '}';
     }
 }
