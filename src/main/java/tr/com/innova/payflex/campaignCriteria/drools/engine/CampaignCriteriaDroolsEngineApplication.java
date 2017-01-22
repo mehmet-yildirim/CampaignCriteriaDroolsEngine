@@ -1,5 +1,6 @@
 package tr.com.innova.payflex.campaignCriteria.drools.engine;
 
+import lombok.extern.slf4j.Slf4j;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.springframework.amqp.core.Binding;
@@ -14,11 +15,14 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import tr.com.innova.payflex.campaignCriteria.drools.engine.amqp.AMQPReceiver;
 
+import java.util.Arrays;
+
 @SpringBootApplication
-@EnableRabbit
+@Slf4j
 public class CampaignCriteriaDroolsEngineApplication {
 
 	public final static String requestQueueName = "payflex-campaignCriteria-Request";
@@ -81,13 +85,22 @@ public class CampaignCriteriaDroolsEngineApplication {
 	}
 
 	@Bean
-	KieContainer kieContainer() {
+	public KieContainer kieContainer() {
 		return KieServices.Factory.get().getKieClasspathContainer();
 	}
 
 
 	public static void main(String[] args) {
-		SpringApplication.run(CampaignCriteriaDroolsEngineApplication.class, args);
+		ApplicationContext ctx = SpringApplication.run(CampaignCriteriaDroolsEngineApplication.class, args);
+
+		String[] beanNames = ctx.getBeanDefinitionNames();
+		Arrays.sort(beanNames);
+
+		StringBuilder sb = new StringBuilder("Application beans:\n");
+		for (String beanName : beanNames) {
+			sb.append(beanName + "\n");
+		}
+		log.info(sb.toString());
 	}
 
 

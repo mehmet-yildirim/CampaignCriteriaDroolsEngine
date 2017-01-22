@@ -2,6 +2,6 @@
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
 
     <kbase name="PayflexCampaignScenariosKBase" packages="tr.com.innova.payflex.campaignCriteria.scenarios">
-        <ksession name="PayflexCampaignScenariosSession"/>
+        <ksession name="PayflexCampaignScenariosKS"/>
     </kbase>
 </kmodule>
